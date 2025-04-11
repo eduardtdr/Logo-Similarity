@@ -1,0 +1,22 @@
+Am ales task-ul de grupare a logo-urilor in functie de similitudini.
+
+Intai am citit folosind bibilioteca pandas din fisierul logos.snappy.parquet si am vazut ca este format din numele
+domeniilor din care trebuiau extrase logo-urile. Am inspectat cateva din site-uri si am vazut ca in general logo-urile
+sunt stocate sub diverse tag-uri precum <link>, <img>, <meta> pe care le-am considerat de interes.
+
+Am incercat sa testez doar pe primele 20 de elemente intrucat timpul de executie era exagerat de mare atunci cand testam
+pe intreg fisierul.
+
+Mi-am definit o functie de extragere a logo-urilor (get_logo_url) in care cautam in fiecare http sau https ce reprezinta
+domeniile descrise in fisier dupa tag-urile mentionate mai sus. In cazul in care nu se gaseau acolo, accesam direct favicon.
+
+Am aplicat aceasta functie apoi pe primele 20 de domenii si am salvat URL-urile in DataFrame. Cu URL-urile obtinute,
+am incercat sa descarc logo-urile caracteristice intr-un folder, dar in cazul in care operatia de descarcare nu reusea,
+am omis imaginile respective.
+
+Pentru a calcula hash-ul imaginilor m-am folosit de imagehash. Acesta calcula un fel de amprenta a imaginii in functie de
+care se puteau gasi similitudini intre logo-uri. Pe baza acestor similitudini, am grupat site-urile web care aveau o
+diferenta de maxim 10 unitati in hash.
+
+Rezultatele vor fi astfel salvate intr-un fisier csv unde se regasesc domeniile, logo-urile descarcate, alaturi de hash-uri
+si grupurile care contin amprente similare.
